@@ -153,6 +153,106 @@ void pattern13(int n) {
         cout<<endl;
     }
 }
+void pattern14(int n) {
+    for(int i=0;i<n;i++) {
+        for(char ch='A';ch<'A'+i+1;ch++) {
+            cout<<ch;
+        }
+        cout<<endl;
+    }
+}
+void pattern15(int n) {
+    for(int i=n;i>0;i--) {
+        for(char ch='A';ch<'A'+i;ch++) {
+            cout<<ch;
+        }
+        cout<<endl;
+    }
+}
+void pattern16(int n) {
+    char ch='A';
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<i+1;j++) {
+            cout<<ch;
+        }
+        ch++;
+        cout<<endl;
+    }
+}
+void pattern17(int n) {
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<n-i-1;j++) {
+            cout<<" ";
+        }
+        for(char ch='A';ch<'A'+i+1;ch++) {
+            cout<<ch;
+        }
+        for(char ch='A'+i-1;ch>'A'-1;ch--) {
+            cout<<ch;
+        }
+        cout<<endl;
+    }
+}
+void pattern18(int n) {
+    for(int i=n;i>0;i--) {
+        for(char ch='A'+i-1;ch<'A'+n;ch++) {
+            cout<<ch;
+        }
+        cout<<endl;
+    }
+}
+void pattern19(int n) {
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<n-i;j++) {
+            cout<<"*";
+        }
+        for(int j=0;j<2*i;j++) {
+            cout<<" ";
+        }
+        for(int j=0;j<n-i;j++) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<i+1;j++) {
+            cout<<"*";
+        }
+        for(int j=0;j<2*(n-i-1);j++) {
+            cout<<" "; 
+        }
+        for(int j=0;j<i+1;j++) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+}
+void pattern20(int n) {
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<n-1;j++) {
+            cout<<"*";
+        }
+        for(int j=0;j<2*(n-i-1);j++) {
+            cout<<" ";
+        }
+        for(int j=0;j<n-1;j++) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+    for(int i=1;i<n;i++) {
+        for(int j=0;j<n-i;j++) {
+            cout<<"*";
+        }
+        for(int j=0;j<2*i;j++) {
+            cout<<" ";
+        }
+        for (int j=0;j<n-i;j++) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+}
 
 int main() {
     // pattern1(5);
@@ -181,5 +281,19 @@ int main() {
     // cout<<"\n";
     // pattern13(5);
     // cout<<"\n";
+    // pattern14(5);
+    // cout<<"\n";
+    // pattern15(5);
+    // cout<<"\n";
+    // pattern16(5);
+    // cout<<"\n";
+    // pattern17(5);
+    // cout<<"\n";
+    // pattern18(5);
+    // cout<<"\n";
+    // pattern19(5);
+    // cout<<"\n";
+    pattern20(5);
+    cout<<"\n";
     return 0;
 }
