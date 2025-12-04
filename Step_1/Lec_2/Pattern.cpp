@@ -227,15 +227,16 @@ void pattern19(int n) {
         cout<<endl;
     }
 }
+
 void pattern20(int n) {
     for(int i=0;i<n;i++) {
-        for(int j=0;j<n-i+1;j++) {
+        for(int j=0;j<i+1;j++) {
             cout<<"*";
         }
         for(int j=0;j<2*(n-i-1);j++) {
             cout<<" ";
         }
-        for(int j=0;j<n-1;j++) {
+        for(int j=0;j<i+1;j++) {
             cout<<"*";
         }
         cout<<endl;
@@ -255,44 +256,44 @@ void pattern20(int n) {
 }
 
 int main() {
-    // pattern1(5);
-    // cout << "\n";
-    // pattern2(5);
-    // cout << "\n";
-    // pattern3(5);
-    // cout << "\n";
-    // pattern4(5);
-    // cout << "\n";
-    // pattern5(5);
-    // cout << "\n";
-    // pattern6(5);
-    // cout << "\n";
-    // pattern7(5);
-    // cout << "\n";
-    // pattern8(5);
-    // cout<<"\n";
-    // pattern9(5);
-    // cout<<"\n";
-    // pattern10(5);
-    // cout<<"\n";
-    // pattern11(5);
-    // cout<<"\n";
-    // pattern12(5);
-    // cout<<"\n";
-    // pattern13(5);
-    // cout<<"\n";
-    // pattern14(5);
-    // cout<<"\n";
-    // pattern15(5);
-    // cout<<"\n";
-    // pattern16(5);
-    // cout<<"\n";
-    // pattern17(5);
-    // cout<<"\n";
-    // pattern18(5);
-    // cout<<"\n";
-    // pattern19(5);
-    // cout<<"\n";
+    pattern1(5);
+    cout << "\n";
+    pattern2(5);
+    cout << "\n";
+    pattern3(5);
+    cout << "\n";
+    pattern4(5);
+    cout << "\n";
+    pattern5(5);
+    cout << "\n";
+    pattern6(5);
+    cout << "\n";
+    pattern7(5);
+    cout << "\n";
+    pattern8(5);
+    cout<<"\n";
+    pattern9(5);
+    cout<<"\n";
+    pattern10(5);
+    cout<<"\n";
+    pattern11(5);
+    cout<<"\n";
+    pattern12(5);
+    cout<<"\n";
+    pattern13(5);
+    cout<<"\n";
+    pattern14(5);
+    cout<<"\n";
+    pattern15(5);
+    cout<<"\n";
+    pattern16(5);
+    cout<<"\n";
+    pattern17(5);
+    cout<<"\n";
+    pattern18(5);
+    cout<<"\n";
+    pattern19(5);
+    cout<<"\n";
     pattern20(5);
     cout<<"\n";
     return 0;
