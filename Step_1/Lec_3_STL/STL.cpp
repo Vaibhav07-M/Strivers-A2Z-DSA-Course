@@ -262,13 +262,13 @@ void maps() {
     for(auto mp : mapp) {
         cout<<mp.first<<":"<<mp.second<<endl;
     }
-    cout<<mapp[1];
-    cout<<mapp[6];
+    cout<<mapp[1]<<endl;
+    cout<<mapp[6]<<endl;
 
     auto it = mapp.find(3);
     cout<<it->second<<endl;
 
-    cout<<mapp.find(5)->second<<endl;
+    // cout<<mapp.find(5)->second<<endl; // This crashes if key doesn't exist
     
     // rest functions same as sets
 }
@@ -299,13 +299,13 @@ void unorderedmaps(){
     for(auto mp : umapp) {
         cout<<mp.first<<":"<<mp.second<<endl;
     }
-    cout<<umapp[1];
-    cout<<umapp[6];
+    cout<<umapp[1]<<endl;
+    cout<<umapp[6]<<endl;
 
     auto it = umapp.find(3);
     cout<<it->second<<endl;
 
-    cout<<umapp.find(5)->second<<endl;
+    // cout<<umapp.find(5)->second<<endl; // This crashes if key doesn't exist
     
     // rest functions same as unordered sets
 }
@@ -317,7 +317,7 @@ bool comp(pair<int,int> a, pair<int,int> b) {
             else return false;
         }
     }
-    void functions1() {
+void functions1() {
         vector<int> v = {4,3,1,5,2};
         
         for (auto it: v) {
