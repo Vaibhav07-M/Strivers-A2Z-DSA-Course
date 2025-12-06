@@ -317,11 +317,23 @@ bool comp(pair<int,int> a, pair<int,int> b) {
             else return false;
         }
     }
-void functions1() {
-    //sort
-    vector<int> v = {4,3,1,5,2};
-    
-    sort(v.begin(), v.end()); // ascending
+    void functions1() {
+        vector<int> v = {4,3,1,5,2};
+        
+        for (auto it: v) {
+            cout<<it<<" ";
+        }
+        cout<<endl;
+        
+        //reverse
+        reverse(v.begin(), v.end());
+        for (auto it: v) {
+            cout<<it<<" ";
+        }
+        cout<<endl;
+        
+        //sort
+        sort(v.begin(), v.end()); // ascending
     for (auto it: v) {
         cout<<it<<" ";
     }
@@ -375,6 +387,7 @@ void functions1() {
     int arr1[] = {1, 5, 3, 9, 2};
     cout << *max_element(arr1, arr1 + sizeof(arr1)/sizeof(arr1[0])) << endl;
     cout << *min_element(arr1, arr1 + sizeof(arr1)/sizeof(arr1[0])) << endl;
+
 }
 
 int main() {
