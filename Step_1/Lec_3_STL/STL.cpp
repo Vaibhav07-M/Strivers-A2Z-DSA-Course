@@ -253,38 +253,171 @@ void unorderedsets() {
     cout<<us.count(2)<<endl;
     cout<<us.count(6)<<endl;
 }
+void maps() {
+    map<int,int> mapp;
+    mapp[1] = 23;
+    mapp.emplace(2,45);
+    mapp.insert({3,45});
 
+    for(auto mp : mapp) {
+        cout<<mp.first<<":"<<mp.second<<endl;
+    }
+    cout<<mapp[1];
+    cout<<mapp[6];
+
+    auto it = mapp.find(3);
+    cout<<it->second<<endl;
+
+    cout<<mapp.find(5)->second<<endl;
+    
+    // rest functions same as sets
+}
+void multimaps(){
+    multimap<int,int> mmapp;
+    mmapp.insert({1,23});
+    mmapp.insert({1,45});
+    mmapp.insert({2,34});
+    mmapp.insert({2,56});
+
+    for(auto mp : mmapp) {
+        cout<<mp.first<<":"<<mp.second<<endl;
+    }
+
+    cout<<mmapp.count(1)<<endl; // 2
+
+    mmapp.erase(1); // erases all key-value pairs with key 1
+
+    auto it = mmapp.find(2);
+    mmapp.erase(it); // erases only one key-value pair with key 2
+}
+void unorderedmaps(){
+    unordered_map<int,int> umapp;
+    umapp[1] = 23;
+    umapp.emplace(2,45);
+    umapp.insert({3,45});
+
+    for(auto mp : umapp) {
+        cout<<mp.first<<":"<<mp.second<<endl;
+    }
+    cout<<umapp[1];
+    cout<<umapp[6];
+
+    auto it = umapp.find(3);
+    cout<<it->second<<endl;
+
+    cout<<umapp.find(5)->second<<endl;
+    
+    // rest functions same as unordered sets
+}
+bool comp(pair<int,int> a, pair<int,int> b) {
+        if(a.second < b.second) return true;
+        else if(a.second > b.second) return false;
+        else {
+            if(a.first > b.first) return true;
+            else return false;
+        }
+    }
+void functions1() {
+    //sort
+    vector<int> v = {4,3,1,5,2};
+    
+    sort(v.begin(), v.end()); // ascending
+    for (auto it: v) {
+        cout<<it<<" ";
+    }
+    cout<<endl;
+   
+    sort(v.begin(), v.end(), greater<int>()); // descending
+    for (auto it: v) {
+        cout<<it<<" ";
+    }
+    cout<<endl;
+    
+    pair<int,int> arr[] = {{1,2},{5,3},{3,4},{6,4}};
+    
+    sort(arr,arr+4);
+    for(auto it2:arr) {
+        cout<<it2.first<<":"<<it2.second<<endl;
+    }
+    // if we want to sort based on out wish then we use boolean function
+    // example: sort based on second element of pair in ascending order
+    // if second element is same then based on first element in descending order
+    
+    sort(arr,arr+3,comp); //self defined boolean function
+    for(auto it2: arr) {
+        cout<<it2.first<<":"<<it2.second<<endl;
+    }
+
+    //for returning the no. of set bits in binary representation of a no.
+    int n = 13; // binary representation is 1101
+    cout << __builtin_popcount(n) << endl; // output: 3
+     long long m = 1234567890123;
+    cout << __builtin_popcountll(m) << endl; // output: 7
+    
+    //permutations
+    string s = "231"; // elements are not sorted so not all permutations will be printed
+    do {
+        cout<<s<<" ";
+    } while(next_permutation(s.begin(), s.end()));
+    cout<<endl;
+
+    sort(s.begin(), s.end()); // sorting first to get all permutations
+    do {
+        cout<<s<<" ";
+    } while(next_permutation(s.begin(), s.end()));
+    cout<<endl;
+    
+    //min and max
+    int a = 5, b = 10;
+    cout << min(a, b) << endl;
+    cout << max(a, b) << endl;
+
+    int arr1[] = {1, 5, 3, 9, 2};
+    cout << *max_element(arr1, arr1 + sizeof(arr1)/sizeof(arr1[0])) << endl;
+    cout << *min_element(arr1, arr1 + sizeof(arr1)/sizeof(arr1[0])) << endl;
+}
 
 int main() {
-    cout<<"Pairs Example:\n";
-    pairs();
-    cout<<endl;
-    cout<<"Vectors Example:\n";
-    vectors();
-    cout<<endl;
-    cout<<"Lists Example:\n";
-    lists();
-    cout<<endl;
-    cout<<"Deques Example:\n";
-    Deques();
-    cout<<endl;
-    cout<<"Stacks Example:\n";
-    stacks();
-    cout<<endl;
-    cout<<"Queues Example:\n";
-    queues();
-    cout<<endl;
-    cout<<"Priority Queues Example:\n";
-    priority_queues();
-    cout<<endl;
-    cout<<"Sets Example:\n";
-    sets();
-    cout<<endl;
-    cout<<"Multisets Example:\n";
-    multisets();
-    cout<<endl;
-    cout<<"Unordered Sets Example:\n";
-    unorderedsets();
-    cout<<endl;
+    // cout<<"Pairs Example:\n";
+    // pairs();
+    // cout<<endl;
+    // cout<<"Vectors Example:\n";
+    // vectors();
+    // cout<<endl;
+    // cout<<"Lists Example:\n";
+    // lists();
+    // cout<<endl;
+    // cout<<"Deques Example:\n";
+    // Deques();
+    // cout<<endl;
+    // cout<<"Stacks Example:\n";
+    // stacks();
+    // cout<<endl;
+    // cout<<"Queues Example:\n";
+    // queues();
+    // cout<<endl;
+    // cout<<"Priority Queues Example:\n";
+    // priority_queues();
+    // cout<<endl;
+    // cout<<"Sets Example:\n";
+    // sets();
+    // cout<<endl;
+    // cout<<"Multisets Example:\n";
+    // multisets();
+    // cout<<endl;
+    // cout<<"Unordered Sets Example:\n";
+    // unorderedsets();
+    // cout<<endl;
+    // cout<<"Maps Example:\n";
+    // maps();
+    // cout<<endl;
+    // cout<<"Multimaps Example:\n";
+    // multimaps();
+    // cout<<endl;
+    // cout<<"Unordered Maps Example:\n";
+    // unorderedmaps();
+    // cout<<endl;
+    cout<<"Functions Example:\n";
+    functions1();
     return 0;
 }
