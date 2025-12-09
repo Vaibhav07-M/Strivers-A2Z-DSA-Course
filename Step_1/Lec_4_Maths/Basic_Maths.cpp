@@ -69,6 +69,24 @@ void factors(int n) {
         sort(fact.begin(), fact.end());
     }
     for(auto it: fact) cout<<it<<" ";
+    cout<<endl;
+}
+void prime_check(int n) {
+    if(n <= 1) {
+        cout<<"false"<<endl;
+        return;
+    }
+    if(n == 2) {
+        cout<<"true"<<endl;
+        return;
+    }
+    for(int i=2;i*i<=n;i++) {
+        if(n%i==0) {
+            cout<<"false"<<endl;
+            return;
+        }
+    }
+    cout<<"true"<<endl;
 }
 
 int main() {
@@ -78,5 +96,6 @@ int main() {
     gcd_lcm(12, 15);
     armstrong_check(153);
     factors(28);
+    prime_check(29);
     return 0;
 }
