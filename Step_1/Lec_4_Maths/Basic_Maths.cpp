@@ -31,11 +31,40 @@ void palindrome_check(int n) {
     }
     cout<<((n == rev || n == rev/10) ? "true" : "false")<<endl;
 }
+void gcd_lcm(int a, int b) {
+    int ori_a = a, ori_b = b; // Store original values for LCM calculation
+    while(b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    cout<< "GCD: " << a << endl;
+    long long lcm = (ori_a * ori_b) / a;
+    cout<< "LCM: " << lcm << endl; // LCM calculation
+}
+void armstrong_check(int n) {
+    if(n<0) {
+        cout<<"false"<<endl;
+        return;
+    }
+    int power = log10(n) + 1, arm = 0, temp = 1, orium = n;
 
+    while(n>0) {
+        int temp = 1;
+        int mod = n%10;
+        for(int i=0;i<power;i++) temp *= mod;
+        arm += temp;
+        n/=10;
+    }
+    cout<<(arm == orium ? "true" : "false")<<endl;
+
+}
 
 int main() {
     count_digit(-12313);
     reverse_number(-12313);
     palindrome_check(101101);
+    gcd_lcm(12, 15);
+    armstrong_check(153);
     return 0;
 }
