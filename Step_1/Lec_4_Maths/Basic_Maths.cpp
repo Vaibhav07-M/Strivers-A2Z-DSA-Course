@@ -59,6 +59,17 @@ void armstrong_check(int n) {
     cout<<(arm == orium ? "true" : "false")<<endl;
 
 }
+void factors(int n) {
+    vector<int> fact;
+    for(int i=1;i*i<=n;i++) {
+        if(n%i==0){
+            fact.emplace_back(i);
+            if(i!=n/i) fact.emplace_back(n/i);
+        }
+        sort(fact.begin(), fact.end());
+    }
+    for(auto it: fact) cout<<it<<" ";
+}
 
 int main() {
     count_digit(-12313);
@@ -66,5 +77,6 @@ int main() {
     palindrome_check(101101);
     gcd_lcm(12, 15);
     armstrong_check(153);
+    factors(28);
     return 0;
 }
