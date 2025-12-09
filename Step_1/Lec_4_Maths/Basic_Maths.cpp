@@ -20,21 +20,22 @@ void reverse_number(int n) {
     cout << "Reversed number: " << reversed << endl;
 }
 void palindrome_check(int n) {
-    int original = n;
-    int rev = 0;
-
-    while (n > 0) {
-        rev = rev * 10 + n % 10;
+    if(n < 0 || (n%10==0 && n!=0)) {
+        cout<<"false"<<endl;
+        return;
+    }
+    int rev=0;
+    while(n>rev) {
+        rev = rev*10 + n%10;
         n /= 10;
     }
-
-    cout << (rev == original ? "true" : "false");
+    cout<<((n == rev || n == rev/10) ? "true" : "false")<<endl;
 }
 
 
 int main() {
     count_digit(-12313);
     reverse_number(-12313);
-    palindrome_check(0);
+    palindrome_check(101101);
     return 0;
 }
