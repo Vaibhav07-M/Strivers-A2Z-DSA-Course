@@ -64,6 +64,5 @@ int main() {
     print_palindrome(s,0) ? cout<<"true" : cout<<"false";
     cout<<endl;
     cout<<faboncci(6);
-    cout<<endl;
     return 0;
 }
