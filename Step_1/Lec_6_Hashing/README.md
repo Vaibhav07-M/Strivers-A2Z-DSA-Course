@@ -9,6 +9,7 @@ A comprehensive guide to hashing techniques in C++. These implementations demons
 3. [Lowercase Letter Hashing](#3-lowercase-letter-hashing)
 4. [ASCII Character Hashing](#4-ascii-character-hashing)
 5. [Map-based Hashing](#5-map-based-hashing)
+6. [Sorted Hashing with Custom Comparator](#6-sorted-hashing-with-custom-comparator)
 
 ---
 
@@ -658,6 +659,147 @@ hash[char];         // Or use ASCII directly
 | Unordered Map | 10⁶ ops | 10⁶ ops | ~0.002 seconds |
 
 **Speedup:** Hashing is **100,000x - 1,000,000x faster!**
+
+---
+
+## 6. Sorted Hashing with Custom Comparator
+
+**Function:** `number_hashing_sorted(int arr[], int n)`
+
+Demonstrates how to sort hash map entries using custom sorting criteria. This approach combines hashing for frequency counting with vector sorting for flexible ordering.
+
+**Algorithm:**
+1. Build frequency map using `unordered_map<int, int>`
+2. Convert map to `vector<pair<int, int>>` for sortability
+3. Sort by default (ascending by key)
+4. Sort using custom comparator for advanced ordering
+
+**Custom Comparator Logic:**
+```cpp
+bool comp(pair<int,int> a, pair<int,int> b) {
+    // Primary: Sort by frequency (descending)
+    if(a.second > b.second) return true;
+    else if(a.second < b.second) return false;
+    // Secondary: If frequencies equal, sort by value (ascending)
+    else {
+        if(a.first < b.first) return true;
+        else return false;
+    }
+}
+```
+
+**Working Example:**
+```cpp
+arr[] = {1, 2, 3, 4, 5, 2, 5, 2, 5, 2, 4, 5, 2}
+
+Step 1: Build frequency map
+Map: {1:1, 2:5, 3:1, 4:2, 5:4}
+
+Step 2: Convert to vector
+Vector: [(1,1), (2,5), (3,1), (4,2), (5,4)]
+
+Step 3: Default sort (by key ascending)
+Result: [(1,1), (2,5), (3,1), (4,2), (5,4)]
+Output:
+1 : 1
+2 : 5
+3 : 1
+4 : 2
+5 : 4
+
+Step 4: Custom sort (by frequency desc, then key asc)
+Result: [(2,5), (5,4), (4,2), (1,1), (3,1)]
+Output:
+2 : 5  ← Highest frequency
+5 : 4
+4 : 2
+1 : 1  ← Same frequency as 3, but smaller key
+3 : 1
+
+Highest frequency element: 2 with frequency 5
+Lowest frequency, highest value: 3 with frequency 1
+```
+
+**Time Complexity:**
+- Building map: O(n)
+- Converting to vector: O(m) where m = unique elements
+- Sorting: O(m log m)
+- **Total: O(n + m log m)**
+
+**Space Complexity:**
+- Map storage: O(m)
+- Vector storage: O(m)
+- **Total: O(m)**
+
+**Key Concepts:**
+
+1. **Unordered Map to Vector Conversion:**
+   ```cpp
+   unordered_map<int, int> mapp;
+   vector<pair<int,int>> hashh(mapp.begin(), mapp.end());
+   ```
+   This allows sorting since `unordered_map` doesn't support `sort()` directly.
+
+2. **Default vs Custom Sorting:**
+   - `sort(hashh.begin(), hashh.end())` → Sorts by first element (key) ascending
+   - `sort(hashh.begin(), hashh.end(), comp)` → Custom sorting logic
+
+3. **Multi-Level Sorting:**
+   The custom comparator implements a two-tier sorting strategy:
+   - **Primary criterion:** Frequency (higher frequencies first)
+   - **Secondary criterion:** Value (smaller values first when frequencies match)
+
+**Use Cases:**
+- Finding most/least frequent elements
+- Sorting elements by custom criteria
+- Ranking elements based on multiple factors
+- Analytics requiring ordered frequency data
+
+**Code Implementation:**
+```cpp
+void number_hashing_sorted(int arr[], int n) {
+    // Step 1: Build frequency map
+    unordered_map<int, int> mapp;
+    for(int i = 0; i < n; i++) {
+        mapp[arr[i]]++;
+    }
+    
+    // Step 2: Convert to vector for sorting
+    vector<pair<int,int>> hashh(mapp.begin(), mapp.end());
+
+    // Step 3: Default sort (by key)
+    sort(hashh.begin(), hashh.end());
+    for(auto it: hashh) {
+        cout << it.first << " : " << it.second << endl;
+    }
+    cout << endl;
+    
+    // Step 4: Custom sort (by frequency desc, then key asc)
+    sort(hashh.begin(), hashh.end(), comp);
+    for(auto it: hashh) {
+        cout << it.first << " : " << it.second << endl;
+    }
+    cout << endl;
+
+    // Find extremes
+    cout << "Element with the highest frequency is " 
+         << hashh[0].first << " with frequency " << hashh[0].second << endl;
+    cout << "Element with the lowest frequency and highest value is " 
+         << hashh[hashh.size()-1].first << " with frequency " 
+         << hashh[hashh.size()-1].second << endl;
+}
+```
+
+**Advantages:**
+- ✅ Flexible sorting criteria
+- ✅ Fast frequency counting with unordered_map
+- ✅ Can find min/max frequency elements easily
+- ✅ Supports complex multi-level sorting
+
+**Disadvantages:**
+- ❌ Extra O(m) space for vector conversion
+- ❌ O(m log m) sorting overhead
+- ❌ More complex than simple map iteration
 
 ---
 
