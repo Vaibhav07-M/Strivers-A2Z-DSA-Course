@@ -318,22 +318,22 @@ bool comp(pair<int,int> a, pair<int,int> b) {
         }
     }
 void functions1() {
-        vector<int> v = {4,3,1,5,2};
+    vector<int> v = {4,3,1,5,2};
         
-        for (auto it: v) {
-            cout<<it<<" ";
-        }
-        cout<<endl;
+    for (auto it: v) {
+        cout<<it<<" ";
+    }
+    cout<<endl;
         
-        //reverse
-        reverse(v.begin(), v.end());
-        for (auto it: v) {
-            cout<<it<<" ";
-        }
-        cout<<endl;
+     //reverse
+    reverse(v.begin(), v.end());
+    for (auto it: v) {
+        cout<<it<<" ";
+    }
+    cout<<endl;
         
-        //sort
-        sort(v.begin(), v.end()); // ascending
+    //sort
+    sort(v.begin(), v.end()); // ascending
     for (auto it: v) {
         cout<<it<<" ";
     }
