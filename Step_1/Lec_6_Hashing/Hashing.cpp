@@ -91,7 +91,38 @@ void number_hashing_using_maps(int arr[], int n) {
         cout<<"Found "<<i<<", "<<mpp[i]<<" times"<<endl;
     }
 }
+bool comp(pair<int,int> a,pair<int,int> b) {
+    // sorting , primarially on the basis of second element (frequency) in decending order
+    // if frequency is same then on the basis of first element in ascending order
+    if(a.second > b.second) return true;
+    else if(a.second < b.second) return false;
+    else {
+        if(a.first < b.first) return true;
+        else return false;
+    }
+}
+void number_hashing_sorted(int arr[],int n) {
+    unordered_map<int, int> mapp;
 
+    for(int i=0;i<n;i++) {
+        mapp[arr[i]]++;
+    }
+    vector<pair<int,int>> hashh(mapp.begin(),mapp.end());
+
+    sort(hashh.begin(), hashh.end());
+    for(auto it: hashh) {
+        cout<<it.first<<" : "<<it.second<<endl;
+    }
+    cout<<endl;
+    sort(hashh.begin(), hashh.end(),comp);
+    for(auto it: hashh) {
+        cout<<it.first<<" : "<<it.second<<endl;
+    }
+    cout<<endl;
+
+    cout<<"Element with the highest frequency is "<<hashh[0].first<<" with frequency "<<hashh[0].second<<endl;
+    cout<<"Element with the lowest frequency and highest value is "<<hashh[hashh.size()-1].first<<" with frequency "<<hashh[hashh.size()-1].second<<endl;
+}
 
 
 int main(){
@@ -104,7 +135,9 @@ int main(){
     // ascii_hashing(s);
     int arr1[] = {1,2,3,4,5,2,1,5,7,4,2,3,6,5,3,2,5,4,2,4,6,4,2,3,5,2,5,12,12,12,12,134,35,2,24};
     int n = sizeof(arr1)/sizeof(arr1[0]);
-    number_hashing_using_maps(arr1,n);
+    // number_hashing_using_maps(arr1,n);
+    number_hashing_sorted(arr1,n);
+
 
     return 0;
 }
