@@ -310,13 +310,13 @@ void unorderedmaps(){
     // rest functions same as unordered sets
 }
 bool comp(pair<int,int> a, pair<int,int> b) {
-        if(a.second < b.second) return true;
-        else if(a.second > b.second) return false;
-        else {
-            if(a.first > b.first) return true;
-            else return false;
-        }
+    if(a.second < b.second) return true;
+    else if(a.second > b.second) return false;
+    else {
+        if(a.first > b.first) return true;
+        else return false;
     }
+}
 void functions1() {
     vector<int> v = {4,3,1,5,2};
         
