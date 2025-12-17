@@ -6,6 +6,7 @@ A comprehensive guide to sorting algorithms in C++. These implementations demons
 
 1. [Selection Sort](#1-selection-sort)
 2. [Bubble Sort](#2-bubble-sort)
+3. [Insertion Sort](#3-insertion-sort)
 
 ---
 
@@ -166,12 +167,101 @@ Output: 0 1 3 5 12 13 34 45 56 67 80 89
 
 ---
 
+### 3. Insertion Sort
+
+**Function:** `Insertion_sort(int arr[], int n)`
+
+Sorts an array by building a sorted portion one element at a time, similar to how you sort playing cards in your hands.
+
+**Algorithm:**
+1. Start from the second element (consider first element as sorted)
+2. Pick the current element as key
+3. Compare key with elements in the sorted portion (left side)
+4. Shift all elements greater than key one position right
+5. Insert key at its correct position
+6. Repeat until entire array is sorted
+
+**Working Example:**
+```cpp
+arr[] = {12, 11, 13, 5, 6}
+
+Pass 1: key=11, sorted=[12]
+        11 < 12 → shift 12
+        [11, 12, 13, 5, 6]
+
+Pass 2: key=13, sorted=[11, 12]
+        13 > 12 → no shift
+        [11, 12, 13, 5, 6]
+
+Pass 3: key=5, sorted=[11, 12, 13]
+        5 < 13 → shift 13
+        5 < 12 → shift 12
+        5 < 11 → shift 11
+        [5, 11, 12, 13, 6]
+
+Pass 4: key=6, sorted=[5, 11, 12, 13]
+        6 < 13 → shift 13
+        6 < 12 → shift 12
+        6 < 11 → shift 11
+        6 > 5 → insert at position 1
+        [5, 6, 11, 12, 13]
+
+Result: [5, 6, 11, 12, 13]
+```
+
+**Step-by-Step Visualization:**
+```
+Initial:  [12, 11, 13, 5, 6]
+          [12] | 11, 13, 5, 6    (12 is sorted)
+           
+Step 1:   [11, 12] | 13, 5, 6    (insert 11 before 12)
+                   ↑
+Step 2:   [11, 12, 13] | 5, 6    (insert 13 after 12)
+                      ↑
+Step 3:   [5, 11, 12, 13] | 6    (insert 5 at beginning)
+          ↑
+Step 4:   [5, 6, 11, 12, 13]     (insert 6 after 5)
+             ↑
+Sorted:   [5, 6, 11, 12, 13]
+```
+
+**Time Complexity:**
+- Best Case: O(n) - when array is already sorted
+- Average Case: O(n²)
+- Worst Case: O(n²) - when array is reverse sorted
+
+**Space Complexity:** O(1) - in-place sorting
+
+**Characteristics:**
+- ✅ In-place sorting (no extra space needed)
+- ✅ Stable (maintains relative order of equal elements)
+- ✅ Adaptive (efficient for nearly sorted data)
+- ✅ Online (can sort data as it arrives)
+- ✅ Simple and easy to implement
+- ❌ Inefficient for large datasets
+
+**Example:**
+```
+Input: arr[] = {78, 45, 12, 67, 89, 2, 12, 35, 57, 23, 1, 57, 78, 23, 23, 34, 98}
+Output: 1 2 12 12 23 23 23 34 35 45 57 57 67 78 78 89 98
+```
+
+**Why It's Like Sorting Cards:**
+- You start with one card (considered sorted)
+- Pick the next card from unsorted pile
+- Find its correct position in your sorted hand
+- Shift cards to make space and insert
+- Repeat until all cards are sorted
+
+---
+
 ## Comparison Table
 
 | Algorithm | Best Case | Average Case | Worst Case | Space | Stable | Adaptive |
 |-----------|-----------|--------------|------------|-------|--------|----------|
 | Selection Sort | O(n²) | O(n²) | O(n²) | O(1) | ❌ | ❌ |
 | Bubble Sort | O(n) | O(n²) | O(n²) | O(1) | ✅ | ✅ |
+| Insertion Sort | O(n) | O(n²) | O(n²) | O(1) | ✅ | ✅ |
 
 ---
 
@@ -186,6 +276,13 @@ Output: 0 1 3 5 12 13 34 45 56 67 80 89
 - When data is nearly sorted
 - When you need a stable sort with O(1) space
 - For educational purposes or small datasets
+
+### Insertion Sort:
+- When data is nearly sorted or partially sorted
+- For small datasets (performs better than other O(n²) algorithms)
+- When you need an online sorting algorithm (data arrives in real-time)
+- As a subroutine in more complex algorithms like Shell Sort or Timsort
+- When stability is required with minimal space
 
 ---
 
