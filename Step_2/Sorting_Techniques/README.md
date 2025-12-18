@@ -7,6 +7,7 @@ A comprehensive guide to sorting algorithms in C++. These implementations demons
 1. [Selection Sort](#1-selection-sort)
 2. [Bubble Sort](#2-bubble-sort)
 3. [Insertion Sort](#3-insertion-sort)
+4. [Merge Sort](#4-merge-sort)
 
 ---
 
@@ -255,6 +256,164 @@ Output: 1 2 12 12 23 23 23 34 35 45 57 57 67 78 78 89 98
 
 ---
 
+### 4. Merge Sort
+
+**Function:** `Merge_sort(vector<int> &arr, int n)`
+
+A divide-and-conquer algorithm that divides the array into two halves, recursively sorts them, and then merges the sorted halves.
+
+**Algorithm:**
+1. Divide the array into two halves at the middle
+2. Recursively sort the left half
+3. Recursively sort the right half
+4. Merge the two sorted halves into one sorted array
+
+**Working Example:**
+```cpp
+arr[] = {38, 27, 43, 3, 9, 82, 10}
+
+Divide Phase:
+[38, 27, 43, 3, 9, 82, 10]
+       ↙            ↘
+[38, 27, 43]    [3, 9, 82, 10]
+   ↙     ↘         ↙       ↘
+[38]  [27, 43]  [3, 9]  [82, 10]
+       ↙   ↘     ↙  ↘    ↙   ↘
+      [27] [43] [3] [9] [82] [10]
+
+Merge Phase:
+      [27] [43] [3] [9] [82] [10]
+       ↘   ↙     ↘  ↙    ↘   ↙
+     [27, 43]   [3, 9]  [10, 82]
+        ↘         ↙        ↙
+      [3, 9, 27, 43]  [10, 82]
+             ↘           ↙
+        [3, 9, 10, 27, 43, 82]
+```
+
+**Merge Process Example:**
+```
+Merging [27, 43] and [3, 9]:
+
+Left:  [27, 43]  Right: [3, 9]
+        ↑                ↑
+Compare 27 vs 3 → 3 is smaller → temp = [3]
+
+Left:  [27, 43]  Right: [3, 9]
+        ↑                   ↑
+Compare 27 vs 9 → 9 is smaller → temp = [3, 9]
+
+Left:  [27, 43]  Right: [3, 9] (exhausted)
+        ↑
+Remaining: 27 → temp = [3, 9, 27]
+
+Left:  [27, 43]
+            ↑
+Remaining: 43 → temp = [3, 9, 27, 43]
+
+Result: [3, 9, 27, 43]
+```
+
+**Step-by-Step Visualization:**
+```
+Level 0:  [38, 27, 43, 3, 9, 82, 10]         (Original)
+          
+Level 1:  [38, 27, 43] | [3, 9, 82, 10]     (Divide)
+          
+Level 2:  [38] | [27, 43] | [3, 9] | [82, 10]  (Divide further)
+          
+Level 3:  [27] | [43] | [3] | [9] | [82] | [10]  (Base cases)
+          
+Level 2:  [27, 43] | [3, 9] | [10, 82]      (Merge pairs)
+          
+Level 1:  [3, 9, 27, 43] | [10, 82]         (Merge)
+          
+Level 0:  [3, 9, 10, 27, 43, 82]            (Final merge)
+```
+
+**Time Complexity:**
+- Best Case: O(n log n)
+- Average Case: O(n log n)
+- Worst Case: O(n log n)
+
+**Space Complexity:** O(n) - requires extra space for temporary arrays
+
+**Characteristics:**
+- ❌ Not in-place (requires O(n) extra space)
+- ✅ Stable (maintains relative order of equal elements)
+- ❌ Not adaptive (always takes O(n log n) time)
+- ✅ Consistent performance across all cases
+- ✅ Efficient for large datasets
+- ✅ Parallelizable (divide-and-conquer nature)
+
+**Example:**
+```
+Input: arr[] = {38, 27, 43, 3, 9, 82, 10}
+Output: 3 9 10 27 38 43 82
+```
+
+**Memory Optimization:**
+
+The standard implementation creates a new temporary vector in each merge call, which can be inefficient. Here's an optimized approach:
+
+**Optimized Approach - Preallocate Temporary Array:**
+```cpp
+// Instead of creating temp vector in merge function:
+void merge(vector<int> &arr, int low, int mid, int high) {
+    vector<int> temp;  // Creates new vector every call ❌
+    // ... rest of merge
+}
+
+// Optimize by creating temp once in main and passing it:
+void merge(vector<int> &arr, vector<int> &temp, int low, int mid, int high) {
+    int left = low;
+    int right = mid + 1;
+    int k = low;  // Index for temp array
+    
+    while(left <= mid && right <= high) {
+        if(arr[left] <= arr[right]) {
+            temp[k++] = arr[left++];
+        } else {
+            temp[k++] = arr[right++];
+        }
+    }
+    while(left <= mid) temp[k++] = arr[left++];
+    while(right <= high) temp[k++] = arr[right++];
+    
+    // Copy back to original array
+    for(int i = low; i <= high; i++) {
+        arr[i] = temp[i];
+    }
+}
+
+void mS(vector<int> &arr, vector<int> &temp, int low, int high) {
+    if(low >= high) return;
+    int mid = (low + high) / 2;
+    mS(arr, temp, low, mid);
+    mS(arr, temp, mid + 1, high);
+    merge(arr, temp, low, mid, high);
+}
+
+void Merge_sort(vector<int> &arr, int n) {
+    vector<int> temp(n);  // Create once, reuse throughout ✅
+    mS(arr, temp, 0, n-1);
+}
+```
+
+**Benefits of Optimization:**
+- ✅ Reduces memory allocations from O(n log n) to O(n)
+- ✅ Improves cache performance
+- ✅ Faster execution due to reduced allocation overhead
+- ✅ Same O(n) space complexity but with better constants
+
+**When This Optimization Matters:**
+- Large arrays (n > 10,000)
+- Performance-critical applications
+- Systems with limited memory bandwidth
+- When merge sort is called repeatedly
+
+---
+
 ## Comparison Table
 
 | Algorithm | Best Case | Average Case | Worst Case | Space | Stable | Adaptive |
@@ -262,6 +421,7 @@ Output: 1 2 12 12 23 23 23 34 35 45 57 57 67 78 78 89 98
 | Selection Sort | O(n²) | O(n²) | O(n²) | O(1) | ❌ | ❌ |
 | Bubble Sort | O(n) | O(n²) | O(n²) | O(1) | ✅ | ✅ |
 | Insertion Sort | O(n) | O(n²) | O(n²) | O(1) | ✅ | ✅ |
+| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ | ❌ |
 
 ---
 
@@ -283,6 +443,14 @@ Output: 1 2 12 12 23 23 23 34 35 45 57 57 67 78 78 89 98
 - When you need an online sorting algorithm (data arrives in real-time)
 - As a subroutine in more complex algorithms like Shell Sort or Timsort
 - When stability is required with minimal space
+
+### Merge Sort:
+- For large datasets (n > 10,000)
+- When consistent O(n log n) performance is required
+- When stability is important (preserving order of equal elements)
+- For external sorting (sorting data that doesn't fit in memory)
+- When parallel processing is available (divide-and-conquer is parallelizable)
+- In applications where worst-case performance matters
 
 ---
 
