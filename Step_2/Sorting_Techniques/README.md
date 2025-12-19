@@ -8,6 +8,7 @@ A comprehensive guide to sorting algorithms in C++. These implementations demons
 2. [Bubble Sort](#2-bubble-sort)
 3. [Insertion Sort](#3-insertion-sort)
 4. [Merge Sort](#4-merge-sort)
+5. [Quick Sort](#5-quick-sort)
 
 ---
 
@@ -414,14 +415,201 @@ void Merge_sort(vector<int> &arr, int n) {
 
 ---
 
+### 5. Quick Sort
+
+**Function:** `quick_sort(vector<int> &arr, int low, int high)`
+
+A highly efficient divide-and-conquer algorithm that selects a pivot element and partitions the array around it, then recursively sorts the partitions. Uses tail call optimization to reduce stack space.
+
+**Algorithm:**
+1. Choose a pivot element (random selection for better average case)
+2. Partition the array: elements smaller than pivot on left, larger on right
+3. Pivot is now in its final sorted position
+4. Recursively apply the same process to left and right subarrays
+5. Use tail call optimization: recursively sort smaller partition, iterate on larger
+
+**Working Example:**
+```cpp
+arr[] = {10, 7, 8, 9, 1, 5}
+Pivot selection: random (shown with last element for simplicity)
+
+Initial: [10, 7, 8, 9, 1, 5]
+         Select pivot = 5
+
+Partition Process:
+  Compare 10 with 5: 10 > 5 → stays right
+  Compare 7 with 5:  7 > 5 → stays right
+  Compare 8 with 5:  8 > 5 → stays right
+  Compare 9 with 5:  9 > 5 → stays right
+  Compare 1 with 5:  1 < 5 → move to left
+  Place pivot: [1, 5, 8, 9, 10, 7]
+                   ↑
+               pivot in position
+
+Recursive Calls:
+  Left: [1] → already sorted
+  Right: [8, 9, 10, 7]
+         Select pivot = 7
+         Partition: [7, 9, 10, 8]
+         Left: [] → empty
+         Right: [9, 10, 8]
+                Select pivot = 8
+                Partition: [8, 10, 9]
+                Left: [] → empty
+                Right: [10, 9]
+                       Select pivot = 9
+                       Partition: [9, 10]
+                       Result: [9, 10]
+
+Final Result: [1, 5, 7, 8, 9, 10]
+```
+
+**Partition Visualization:**
+```
+Array: [10, 7, 8, 9, 1, 5]  pivot = 5
+        ↑
+        i=-1 (boundary between smaller and larger elements)
+
+j=0: arr[0]=10 > 5 → no swap
+     [10, 7, 8, 9, 1, 5]  i=-1
+
+j=1: arr[1]=7 > 5 → no swap
+     [10, 7, 8, 9, 1, 5]  i=-1
+
+j=2: arr[2]=8 > 5 → no swap
+     [10, 7, 8, 9, 1, 5]  i=-1
+
+j=3: arr[3]=9 > 5 → no swap
+     [10, 7, 8, 9, 1, 5]  i=-1
+
+j=4: arr[4]=1 < 5 → i++, swap arr[0] ↔ arr[4]
+     [1, 7, 8, 9, 10, 5]  i=0
+                ↑
+
+Finally: swap pivot (arr[high]) with arr[i+1]
+     [1, 5, 8, 9, 10, 7]
+         ↑
+         Pivot at index 1
+```
+
+**Tail Call Optimization:**
+```cpp
+// Without optimization (recursive on both sides):
+void quick_sort_basic(arr, low, high) {
+    if(low < high) {
+        int p = partition(arr, low, high);
+        quick_sort_basic(arr, low, p-1);     // Left subarray
+        quick_sort_basic(arr, p+1, high);    // Right subarray
+    }
+}
+// Space: O(n) worst case - all recursive calls on stack
+
+// With tail call optimization (iterative on larger partition):
+void quick_sort(arr, low, high) {
+    while(low < high) {
+        int p = partition(arr, low, high);
+        if(p-low < high-p) {  // Left is smaller
+            quick_sort(arr, low, p-1);   // Recurse on smaller
+            low = p + 1;                 // Iterate on larger
+        } else {              // Right is smaller
+            quick_sort(arr, p+1, high);  // Recurse on smaller
+            high = p - 1;                // Iterate on larger
+        }
+    }
+}
+// Space: O(log n) - only smaller partition adds to stack
+```
+
+**Random Pivot Selection:**
+```cpp
+// Why random pivot?
+Worst case for Quick Sort: Already sorted array with fixed pivot
+arr[] = [1, 2, 3, 4, 5] with pivot = last element
+
+Pass 1: pivot=5 → [1,2,3,4] | [5] → Imbalanced!
+Pass 2: pivot=4 → [1,2,3] | [4,5] → Still imbalanced!
+Pass 3: pivot=3 → [1,2] | [3,4,5]
+...
+Result: O(n²) time, O(n) space
+
+// Random pivot selection:
+- Pivot chosen randomly from [low...high]
+- Swapped to the end before partitioning
+- Makes worst case probabilistically rare
+- Average case O(n log n) highly likely
+```
+
+**Time Complexity:**
+- Best Case: O(n log n) - pivot divides array evenly
+- Average Case: O(n log n) - random pivot gives balanced partitions
+- Worst Case: O(n²) - pivot is always smallest/largest (rare with random selection)
+
+**Space Complexity:** 
+- O(log n) - with tail call optimization (only smaller partition on stack)
+- O(n) - without optimization in worst case
+
+**Characteristics:**
+- ✅ In-place sorting (O(1) extra space if we ignore recursion stack)
+- ❌ Not stable (can change relative order of equal elements)
+- ❌ Not adaptive (doesn't detect sorted data)
+- ✅ Cache-friendly (good locality of reference)
+- ✅ Average case faster than Merge Sort (less overhead)
+- ✅ Tail call optimization reduces stack depth
+- ✅ Random pivot prevents worst case on sorted data
+
+**Example:**
+```
+Input: arr[] = {56, 23, 45, 78, 23, 12, 4, 5, 67, 78, 89, 87, 34, 2, 312, 34, 4, 7}
+Output: 2 4 4 5 7 12 23 23 34 34 45 56 67 78 78 87 89 312
+```
+
+**Optimizations Explained:**
+
+1. **Random Pivot Selection:**
+   - Prevents worst case on sorted/reverse sorted arrays
+   - Makes O(n²) case probabilistically unlikely
+   - Simple to implement with `rand()`
+
+2. **Tail Call Optimization:**
+   - Reduces stack space from O(n) to O(log n)
+   - Always recurse on smaller partition
+   - Iterate on larger partition
+   - Critical for large arrays
+
+3. **Why Quick Sort is "Quick":**
+   - In-place partitioning (no extra arrays like Merge Sort)
+   - Better cache performance (sequential access)
+   - Fewer data movements than Merge Sort
+   - Smaller constant factors in O(n log n)
+
+**Comparison with Merge Sort:**
+```
+Quick Sort:
+✅ In-place (O(log n) space)
+✅ Faster average case (better cache, less overhead)
+❌ Unstable
+❌ Worst case O(n²)
+
+Merge Sort:
+❌ Requires O(n) extra space
+❌ Slower in practice (more data movement)
+✅ Stable
+✅ Guaranteed O(n log n)
+```
+
+---
+
 ## Comparison Table
 
-| Algorithm | Best Case | Average Case | Worst Case | Space | Stable | Adaptive |
-|-----------|-----------|--------------|------------|-------|--------|----------|
-| Selection Sort | O(n²) | O(n²) | O(n²) | O(1) | ❌ | ❌ |
-| Bubble Sort | O(n) | O(n²) | O(n²) | O(1) | ✅ | ✅ |
-| Insertion Sort | O(n) | O(n²) | O(n²) | O(1) | ✅ | ✅ |
-| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ | ❌ |
+| Algorithm        | Best Case     | Average Case  | Worst Case   | Space     | Stable | Adaptive |
+|------------------|---------------|---------------|--------------|-----------|--------|----------|
+| Selection Sort   | O(n²)         | O(n²)         | O(n²)        | O(1)      | ❌     | ❌       |
+| Bubble Sort      | O(n)          | O(n²)         | O(n²)        | O(1)      | ✅     | ✅       |
+| Insertion Sort   | O(n)          | O(n²)         | O(n²)        | O(1)      | ✅     | ✅       |
+| Merge Sort       | O(n log n)    | O(n log n)    | O(n log n)   | O(n)      | ✅     | ❌       |
+| Quick Sort       | O(n log n)    | O(n log n)    | O(n²)*       | O(log n)  | ❌     | ❌       |
+
+*With random pivot selection, the worst case is probabilistically rare.*
 
 ---
 
@@ -452,17 +640,29 @@ void Merge_sort(vector<int> &arr, int n) {
 - When parallel processing is available (divide-and-conquer is parallelizable)
 - In applications where worst-case performance matters
 
+### Quick Sort:
+- **Most common choice for general-purpose sorting** (used in many standard libraries)
+- For large datasets where average case performance matters
+- When O(log n) space is acceptable but O(n) is not
+- When cache performance is critical (better locality than Merge Sort)
+- For in-memory sorting with good average performance
+- When stability is not required
+- In systems programming and performance-critical applications
+- When dealing with random or uniformly distributed data
+
 ---
 
 ## Key Takeaways
 
-1. **In-Place Sorting:** Both algorithms use O(1) extra space
-2. **Comparison-Based:** Elements are ordered through comparisons
-3. **Understand Trade-offs:** Selection Sort minimizes swaps, Bubble Sort is adaptive
-4. **Time Complexity Matters:** O(n²) makes these unsuitable for large datasets
-5. **Stability Consideration:** Choose Bubble Sort when order of equal elements matters
-6. **Optimization Helps:** Early termination can significantly improve performance
-7. **Algorithm Selection:** Choose based on data characteristics and constraints
+1. **In-Place vs External Memory:** Quick Sort uses O(log n), Merge Sort uses O(n) space
+2. **Comparison-Based:** All algorithms order elements through comparisons
+3. **Understand Trade-offs:** Selection Sort minimizes swaps, Bubble Sort is adaptive, Quick Sort is fastest on average
+4. **Time Complexity Matters:** O(n²) algorithms unsuitable for large datasets; O(n log n) scales well
+5. **Stability Consideration:** Merge Sort and Insertion Sort are stable; Quick Sort and Selection Sort are not
+6. **Optimization Helps:** Random pivot (Quick Sort), early termination (Bubble Sort), and memory reuse (Merge Sort) significantly improve performance
+7. **Algorithm Selection:** Choose based on data characteristics, stability requirements, and space constraints
+8. **Quick Sort Dominance:** Most widely used in practice due to excellent average case and cache performance
+9. **Divide-and-Conquer Power:** Both Merge Sort and Quick Sort leverage this paradigm for O(n log n) performance
 
 ---
 
