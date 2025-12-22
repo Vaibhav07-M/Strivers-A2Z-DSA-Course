@@ -111,6 +111,61 @@ void move_zeros(vector<int> arr) {
         cout<<arr[i]<<" ";
     }
 }
+void arr_union(vector<int> arr1,vector<int> arr2) {
+    int i = 0;
+    int j = 0;
+    vector<int> temp;
+    
+    // vector<int> arr5 = {1,3,4,6,7,8,9};
+    // vector<int> arr6 = {1,2,3,4,6,7,8};
+
+    while(i<arr1.size() && j<arr2.size()) {
+        if(arr1[i] == arr2[j]){
+            if(temp.empty() || temp.back() != arr1[i]){
+                temp.push_back(arr1[i]);
+            }
+            i++;
+            j++;
+        }
+        else if(arr1[i]<arr2[j]) {
+            if(temp.empty() || temp.back() != arr1[i]){
+                temp.push_back(arr1[i]);
+            }
+            i++;
+        }
+        else if(arr1[i]>arr2[j]) {
+            if(temp.empty() || temp.back() != arr2[j]){
+                temp.push_back(arr2[j]);
+            }
+            j++;
+        }
+    }
+    while(i<arr1.size()) {
+        if(temp.empty() || temp.back() != arr1[i]){
+            temp.push_back(arr1[i]);
+        }
+        i++;
+    }
+    while(j<arr2.size()) {
+        if(temp.empty() || temp.back() != arr2[j]){
+            temp.push_back(arr2[j]);
+        }
+        j++;
+    }
+    cout<<"\nUnion of "<<endl;
+    for(int i=0;i<arr1.size();i++) {
+        cout<<arr1[i]<<" ";
+    }
+    cout<<"and "<<endl;
+    for(int i=0;i<arr2.size();i++) {
+        cout<<arr2[i]<<" ";
+    }
+    cout<<"is "<<endl;
+    for(int i=0;i<temp.size();i++) {
+        cout<<temp[i]<<" ";
+    }
+}
+
 
 int main() {
     vector<int> arr = {2,5,9,7,3,2,6,7,9,0,2,4};
@@ -131,4 +186,8 @@ int main() {
 
     vector<int> arr4 = {1,3,0,6,0,4,9,0,0,6,3,0};
     move_zeros(arr4);
+    
+    vector<int> arr5 = {1,3,4,6,7,8,9};
+    vector<int> arr6 = {1,2,3,4,6,7,8};
+    arr_union(arr5,arr6);
 }
