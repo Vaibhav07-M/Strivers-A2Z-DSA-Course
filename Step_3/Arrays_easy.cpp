@@ -111,15 +111,16 @@ void move_zeros(vector<int> arr) {
         cout<<arr[i]<<" ";
     }
 }
-void arr_union(vector<int> arr1,vector<int> arr2) {
+void arr_union(vector<int> &arr1,vector<int> &arr2) {
     int i = 0;
     int j = 0;
     vector<int> temp;
-    
+    int m = arr1.size();
+    int n = arr2.size();
     // vector<int> arr5 = {1,3,4,6,7,8,9};
     // vector<int> arr6 = {1,2,3,4,6,7,8};
 
-    while(i<arr1.size() && j<arr2.size()) {
+    while(i<m && j<n) {
         if(arr1[i] == arr2[j]){
             if(temp.empty() || temp.back() != arr1[i]){
                 temp.push_back(arr1[i]);
@@ -140,24 +141,24 @@ void arr_union(vector<int> arr1,vector<int> arr2) {
             j++;
         }
     }
-    while(i<arr1.size()) {
+    while(i<m) {
         if(temp.empty() || temp.back() != arr1[i]){
             temp.push_back(arr1[i]);
         }
         i++;
     }
-    while(j<arr2.size()) {
+    while(j<n) {
         if(temp.empty() || temp.back() != arr2[j]){
             temp.push_back(arr2[j]);
         }
         j++;
     }
     cout<<"\nUnion of "<<endl;
-    for(int i=0;i<arr1.size();i++) {
+    for(int i=0;i<m;i++) {
         cout<<arr1[i]<<" ";
     }
     cout<<"and "<<endl;
-    for(int i=0;i<arr2.size();i++) {
+    for(int i=0;i<n;i++) {
         cout<<arr2[i]<<" ";
     }
     cout<<"is "<<endl;
@@ -165,7 +166,49 @@ void arr_union(vector<int> arr1,vector<int> arr2) {
         cout<<temp[i]<<" ";
     }
 }
-
+void missing_number(vector<int> &arr) {
+    int n = arr.size();
+    int result = (n*(n+1))/2;
+    int sum = 0;
+    for(int i=0;i<n;i++) {
+        sum+=arr[i];
+    }
+    cout<<"\nMissing number from array: "<<result-sum<<endl;
+}
+void maxconsecutive_ones(vector<int> &arr) {
+    int max_count = 0;
+    int count = 0;
+    for(int i=0;i<arr.size();i++) {
+        if(arr[i]==1) {
+            count++;
+        }
+        else {
+            if(count>=max_count || max_count==0) {
+                max_count = count;
+                count = 0;
+            }
+            else {
+                count = 0;
+            }
+        }
+    }
+    if(count>max_count) {
+        max_count = count;
+    }
+    cout<<"\nMaximum consecutive ones: "<<max_count<<endl;
+    // or 
+    // int max_count = 0, count = 0;
+    // for(int x : arr) {
+    //     if(x == 1) {
+    //         count++;
+    //         max_count = max(max_count,count);
+    //     }
+    //     else {
+    //         count = 0;
+    //     }
+    // }
+    // cout<<"\nMaximum consecutive ones: "<<max_count<<endl;
+}
 
 int main() {
     vector<int> arr = {2,5,9,7,3,2,6,7,9,0,2,4};
@@ -190,4 +233,9 @@ int main() {
     vector<int> arr5 = {1,3,4,6,7,8,9};
     vector<int> arr6 = {1,2,3,4,6,7,8};
     arr_union(arr5,arr6);
+
+    vector<int> arr7 = {9,1,3,4,5,6,7,8,2};
+    missing_number(arr7);
+    vector<int> arr8 = {1,1,1,0,1,1,1,1,1,0,1,1,1};
+    maxconsecutive_ones(arr8);
 }
