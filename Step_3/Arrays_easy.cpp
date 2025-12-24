@@ -195,7 +195,7 @@ void maxconsecutive_ones(vector<int> &arr) {
     if(count>max_count) {
         max_count = count;
     }
-    cout<<"\nMaximum consecutive ones: "<<max_count<<endl;
+    cout<<"Maximum consecutive ones: "<<max_count<<endl;
     // or 
     // int max_count = 0, count = 0;
     // for(int x : arr) {
@@ -208,6 +208,15 @@ void maxconsecutive_ones(vector<int> &arr) {
     //     }
     // }
     // cout<<"\nMaximum consecutive ones: "<<max_count<<endl;
+}
+void one_occurence(vector<int> &arr) {
+    int n = arr.size();
+    int xorr = 0;
+    for(int i=0;i<n;i++) {
+        xorr = xorr ^ arr[i];
+    }
+    cout<<"Element with one occurence: "<<xorr<<endl;
+    
 }
 
 int main() {
@@ -238,4 +247,7 @@ int main() {
     missing_number(arr7);
     vector<int> arr8 = {1,1,1,0,1,1,1,1,1,0,1,1,1};
     maxconsecutive_ones(arr8);
+
+    vector<int> arr9 = {2,3,5,4,5,3,2,4,6,7,6};
+    one_occurence(arr9);
 }
