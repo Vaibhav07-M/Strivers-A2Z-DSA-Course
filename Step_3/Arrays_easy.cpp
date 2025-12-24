@@ -218,6 +218,30 @@ void one_occurence(vector<int> &arr) {
     cout<<"Element with one occurence: "<<xorr<<endl;
     
 }
+void longest_subarray(vector<int> &arr, int k) {
+    int n = arr.size();
+    int count = 0;
+    int count1 = 0;
+    int summ = 0;
+    for(int i=0;i<n;i++) {
+        if(summ == k || summ >= k) {
+            summ = 0;
+            count = max(count,count1);
+            count1 = 0;
+        }
+        else if(summ < k) {
+            summ+=arr[i];
+            count1++;
+            
+        }
+        else {
+            summ = 0;
+            count1 = 0;
+        }
+    }
+    count = max(count,count1);
+    cout<<" "<<count;
+}
 
 int main() {
     vector<int> arr = {2,5,9,7,3,2,6,7,9,0,2,4};
@@ -250,4 +274,7 @@ int main() {
 
     vector<int> arr9 = {2,3,5,4,5,3,2,4,6,7,6};
     one_occurence(arr9);
+
+    vector<int> arr10 = {10, 5, 2, 7, 1, 9};
+    longest_subarray(arr10,15);
 }
